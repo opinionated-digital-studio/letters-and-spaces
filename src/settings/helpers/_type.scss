@@ -1,0 +1,47 @@
+@use 'sass:math';
+
+////
+/// @group settings/helpers/type
+////
+
+/// Get line height as a factor of a given font size
+///
+/// @param {Number} $font-size - Font size in pixels
+/// @param {Number} $line-height - Line height in pixels
+/// @return {Number} Line height as a factor relative to the given font size
+/// @access public
+
+@function get-line-height-factor($font-size, $line-height) {
+  @return math.div($line-height, $font-size);
+}
+
+/// Creates a map with a base font size and base line height
+///
+/// @param {Number} $base-vertical-unit - Base vertical unit in pixels
+/// @param {Number} $font-size-multiplier - Base font multiplier to be multiplied with the base vertical unit
+/// @param {Number} $line-height-multiplier - Base line height multiplier to be multiplied with the base vertical unit
+/// @return {Map} Map containing the font size in pixels and line-height as a multiplier of the font size
+/// @access public
+
+@function create-base-type-map($base-vertical-unit, $font-size-multiplier, $line-height-multiplier) {
+  $font-size: $base-vertical-unit * $font-size-multiplier;
+  $line-height: $base-vertical-unit * $line-height-multiplier;
+  $line-height: get-line-height-factor($font-size, $line-height);
+  $map: (
+    font-size: $font-size,
+    line-height: $line-height
+  );
+  @return $map;
+}
+
+/// Gets a root font size in a format useful for the root element <html>,
+/// so that user-set font size settings on the browser or system are
+/// taken into account
+///
+/// @param {Number} $font-size - Font size in pixels
+/// @return {Number} Font size as a percentage relative to 16px
+/// @access public
+
+@function get-root-font-size($font-size) {
+  @return (math.div($font-size, 16px)) * 100%;
+}

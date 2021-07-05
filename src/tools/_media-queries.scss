@@ -1,0 +1,10 @@
+@use '../settings' as *;
+@use '../../node_modules/sass-mq/mq' as * with (
+  $mq-breakpoints: if(variable-exists(breakpoints), $breakpoints, ())
+);
+
+@mixin media-query($args...) {
+  @include mq($args...) {
+    @content;
+  }
+}

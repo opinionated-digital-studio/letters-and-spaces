@@ -1,0 +1,35 @@
+{
+  "name": "letters-and-spaces",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.scss",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp styles",
+    "watch": "gulp watch",
+    "watch:lint": "gulp watch:lint",
+    "sassdoc": "gulp sassdoc",
+    "lint": "gulp lint",
+    "build:publish": "npm run lint && npm run build && npm run sassdoc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.2.6",
+    "cssnano": "^5.0.6",
+    "gulp": "^4.0.2",
+    "gulp-postcss": "^9.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^5.0.0",
+    "gulp-stylelint": "^13.0.0",
+    "normalize.css": "^8.0.1",
+    "postcss": "^8.3.5",
+    "postcss-sort-media-queries": "^3.11.12",
+    "sass": "^1.35.1",
+    "sass-mq": "^5.0.1",
+    "sassdoc": "^2.7.3",
+    "stylelint": "^13.13.1",
+    "stylelint-config-sass-guidelines": "^8.0.0"
+  }
+}

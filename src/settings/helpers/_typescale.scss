@@ -1,0 +1,19 @@
+@use '../resources' as *;
+
+////
+/// @group settings/helpers/typescale
+////
+
+/// Get a typescale ratio from the typescale ratio resource map
+///
+/// @param {String} $interval - The name of the typescale ratio interval (e.g. "major third")
+/// @return {Number} The typescale ratio corresponding to the typescale ratio name
+/// @access public
+
+@function get-typescale-ratio($interval: 'major-third') {
+  @if (map-has-key($typescale-ratios, $interval)) {
+    @return map-get($typescale-ratios, $interval);
+  } @else {
+    @warn 'Ratio with the name of #{$interval} does not exist in the typescale ratio map $_typescale-ratios';
+  }
+};

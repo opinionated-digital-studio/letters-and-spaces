@@ -1,0 +1,42 @@
+@use 'sass:math';
+
+////
+/// @group settings/layout
+////
+
+/// Maximum width of the page container
+///
+/// @type Number
+/// @access public
+
+$max-width: 1200px !default;
+
+/// Column width definitions map
+///
+/// @type Map
+/// @access public
+
+$grid-widths: (
+  one-quarter: 25%,
+  one-third: 33.3333%,
+  one-half: 50%,
+  two-thirds: 66.6666%,
+  three-quarters: 75%,
+  full: auto
+) !default;
+
+/// Width of gutter between each grid column.
+/// From tablet, this is the outer margins of the page
+///
+/// @type Number
+/// @access public
+
+$gutter: 30px !default;
+
+/// Half of the width of the gutter between each grid column.
+/// On mobile, this is the outer margins of the page
+///
+/// @type Number
+/// @access public
+
+$gutter-half: math.div($gutter, 2);

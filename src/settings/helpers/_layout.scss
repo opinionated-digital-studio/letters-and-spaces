@@ -1,0 +1,20 @@
+@use '../layout';
+
+////
+/// @group settings/helpers/layout
+////
+
+/// Get a grid width from grid width map
+///
+/// @param {String} $width ['full'] - Name of the grid width
+/// @return {Number} Percent of the corresponding width
+/// @access public
+
+@function get-grid-width($width: 'full') {
+  @if map-has-key(layout.$grid-widths, $width) {
+    @return map-get(layout.$grid-widths, $width);
+  } @else {
+    @warn 'Width #{$width} does not exist in widths $grid-widths';
+  }
+}
+

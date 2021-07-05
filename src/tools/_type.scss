@@ -1,0 +1,106 @@
+@use 'sass:math';
+@use '../settings/helpers/' as *;
+@use '../settings';
+@use 'media-queries' as *;
+
+////
+/// @group tools/type
+////
+
+/// Gets the appropriate font size based on the typescale ratio and the nth term on the typescale
+///
+/// See https://learn-the-web.algonquindesign.ca/topics/modular-typography/
+///
+/// @param {Number} $typescale-ratio [settings.$typescale-ratio] - The typescale ratio used in the typescale
+/// @param {Number} $n [1] - The nth term on the typescale or the distance from the base of the typescale
+/// @return {Number} The font size in rem
+/// @access public
+
+@function get-typescale-font-size(
+  $typescale-ratio: settings.$typescale-ratio,
+  $n: 1
+) {
+  @return 1rem * math.pow($typescale-ratio, ($n - 1));
+}
+
+/// Gets the appropriate line height based on the font size and the base line height
+///
+/// See https://learn-the-web.algonquindesign.ca/topics/modular-typography/
+///
+/// @param {Number} $font-size - Font size in rem
+/// @param {Number} $base-line-height - The base line height as a multiplier of the base font size
+/// @return {Number} The line height as a multiplier of the corresponding font size on the typescale
+/// @access public
+
+@function get-line-height($font-size, $base-line-height) {
+  @return math.ceil(math.div($font-size, $base-line-height)) *
+    (math.div($base-line-height, $font-size));
+}
+
+/// Sets the font size and line-height on the root element on each breakpoint
+///
+/// @access public
+
+@mixin set-root-type {
+  @each $breakpoint, $value in settings.$base-type {
+    @if $breakpoint == null {
+      $font-size: map-get($value, font-size);
+      $line-height: map-get($value, line-height);
+      font-size: get-root-font-size($font-size);
+      line-height: $line-height;
+    } @else {
+      @include media-query($from: $breakpoint) {
+        $font-size: map-get($value, font-size);
+        $line-height: map-get($value, line-height);
+        font-size: get-root-font-size($font-size);
+        line-height: $line-height;
+      }
+    }
+  }
+
+  text-size-adjust: 100%;
+}
+
+/// Sets the appropriate font-size on an element based on the given nth term on the typescale
+///
+/// @param {Number} $n [1] - The nth term on the typescale
+/// @access public
+
+@mixin set-font-size($n: 1) {
+  font-size: get-typescale-font-size($n: $n);
+}
+
+/// Sets the appropriate line-height based on the given nth term on the typescale and the base line-height specific to a given breakpoint
+///
+/// @param {Number} $n [1] - The nth term on the typescale
+/// @param {String} $breakpoint-name [null] - The name of the breakpoint used to find the reference base line-height
+/// @access public
+
+@mixin set-line-height-fixed($n: 1, $breakpoint-name: null) {
+  $reference-font-size: math.div(get-typescale-font-size($n: $n), 1rem);
+  $reference-base-type: map-get(settings.$base-type, $breakpoint-name);
+  $base-line-height: map-get($reference-base-type, line-height);
+
+  line-height: get-line-height($reference-font-size, $base-line-height);
+}
+
+/// Responsively sets the line-height based on the given nth term of the typescale
+///
+/// @param {$Number} $n [1] - The nth term on the typescale
+/// @access public
+
+@mixin set-line-height($n: 1) {
+  $reference-font-size: get-typescale-font-size($n: $n);
+
+  @each $breakpoint, $value in settings.$base-type {
+    $base-line-height: map-get($value, line-height);
+
+    @if $breakpoint == null {
+      @include set-line-height-fixed($n, $breakpoint);
+    } @else {
+      @include media-query($from: $breakpoint) {
+        @include set-line-height-fixed($n, $breakpoint);
+      }
+    }
+  }
+}

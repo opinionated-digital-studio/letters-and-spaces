@@ -1,0 +1,63 @@
+@use 'helpers' as *;
+
+////
+/// @group settings/type
+////
+
+/// Base vertical unit map per breakpoint
+///
+/// @type Map
+/// @access public
+
+$base-vertical-unit: (
+  null: 6px,
+  tablet: 6px,
+  desktop: 6px
+) !default;
+
+/// Base font size multiplier per breakpoint.
+/// The values in this map are multiplied by the corresponding
+/// base vertical units to get the base font size in pixels per breakpoint.
+///
+/// @type Map
+/// @access public
+
+$base-font-size-multiplier: (
+  null: 3,
+  tablet: 3,
+  desktop: 4
+) !default;
+
+/// Base line height multiplier per breakpoint.
+/// The values in this map are multiplied by the corresponding
+/// base vertical units to get the base line height per breakpoint.
+///
+/// @type Map
+/// @access public
+
+$base-line-height-multiplier: (
+  null: 4,
+  tablet: 4,
+  desktop: 6
+) !default;
+
+/// Typescale ratio to use within the modular typography system.
+/// See https://alistapart.com/article/more-meaningful-typography/
+///
+/// @type Number
+/// @access public
+
+$typescale-ratio: get-typescale-ratio('major-third') !default;
+
+$base-type: ();
+
+@each $breakpoint, $value in $base-vertical-unit {
+  $map: ();
+  $font-size-multiplier: map-get($base-font-size-multiplier, $breakpoint);
+  $line-height-multiplier: map-get($base-line-height-multiplier, $breakpoint);
+  $map: map-merge($map, ($breakpoint: create-base-type-map($value, $font-size-multiplier, $line-height-multiplier)));
+  $base-type: map-merge($map, $base-type);
+}
+
+
+

@@ -1,0 +1,6 @@
+@use '../tools' as *;
+@use '../../node_modules/normalize.css/normalize.css';
+
+html {
+  @include set-root-type;
+}

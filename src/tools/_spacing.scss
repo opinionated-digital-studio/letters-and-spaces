@@ -1,0 +1,126 @@
+@use 'sass:math';
+@use '../settings';
+@use 'media-queries' as *;
+
+////
+/// @group tools/spacing
+////
+
+/// Sets fixed spacing based on a breakpoint and the nth term on the typescale
+///
+/// @param {Number} $n [1] - The nth term on the typescale or the distance from the base of the typescale
+/// @param {String} $property ['margin'] - The CSS property to implement the spacing mixin on
+/// @param {String} $direction ['all'] - The direction in which the CSS property should apply to (top, bottom, left, right)
+/// @param {String} $breakpoint-name [null] - The name of the breakpoint for which the mixin will take reference from 
+/// @param {Boolean} $important [false] - Whether or not the CSS property should be marked as "important!"
+/// @access private
+
+@mixin _set-spacing-fixed(
+  $n: 1,
+  $property: 'margin',
+  $direction: 'all',
+  $breakpoint-name: null,
+  $important: false
+) {
+  $reference-font-size: get-typescale-font-size($n: $n);
+  $reference-base-type: map-get(settings.$base-type, $breakpoint-name);
+  $base-line-height: map-get($reference-base-type, line-height);
+  $line-height: get-line-height($reference-font-size, $base-line-height);
+  $spacing-value: $line-height * 1rem;
+
+  @if $direction == all {
+    #{$property}: $spacing-value if($important, !important, null);
+  } @else {
+    #{$property}-#{$direction}: $spacing-value
+      if($important, !important, null);
+  }
+}
+
+/// Sets responsive spacing based on the nth term on the typescale
+///
+/// @param {Number} $n [1] - The nth term on the typescale or the distance from the base of the typescale
+/// @param {String} $property ['margin'] - The CSS property to implement the spacing mixin on
+/// @param {String} $direction ['all'] - The direction in which the CSS property should apply to (top, bottom, left, right)
+/// @param {Boolean} $important [false] - Whether or not the CSS property should be marked as "important!"
+/// @access private
+
+@mixin _set-spacing-responsive(
+  $n: 1,
+  $property: 'margin',
+  $direction: 'all',
+  $important: false
+) {
+  @each $breakpoint, $value in settings.$base-type {
+    @if $breakpoint == null {
+      @include _set-spacing-fixed($n, $property, $direction, $breakpoint, $important);
+    } @else {
+      @include media-query($from: $breakpoint) {
+        @include _set-spacing-fixed($n, $property, $direction, $breakpoint, $important);
+      }
+    }
+  }
+}
+
+/// Sets a fixed margin space in a given direction based on a given breakpoint and nth term on the typescale
+///
+/// @param {Number} $n [1] - The nth term on the typescale or the distance from the base of the typescale
+/// @param {String} $direction ['all'] - The direction in which the margin should apply to (top, bottom, left, right)
+/// @param {String} $breakpoint-name [null] - The name of the breakpoint for which the mixin will take reference from 
+/// @param {Boolean} $important [false] - Whether or not the CSS margin property should be marked as "important!"
+/// @access public
+
+@mixin set-margin-fixed(
+  $n: 1,
+  $direction: 'all',
+  $breakpoint-name: null,
+  $important: false
+) {
+  @include _set-spacing-fixed($n, 'margin', $direction, $breakpoint-name, $important);
+}
+
+/// Responsively sets margin spaces in a given direction based on a given nth term on the typescale
+///
+/// @param {Number} $n [1] - The nth term on the typescale or the distance from the base of the typescale
+/// @param {String} $direction ['all'] - The direction in which the margin should apply to (top, bottom, left, right)
+/// @param {Boolean} $important [false] - Whether or not the CSS margin property should be marked as "important!"
+/// @access public
+
+@mixin set-margin-responsive(
+  $n: 1,
+  $direction: 'all',
+  $important: false
+) {
+  @include _set-spacing-responsive($n, 'margin', $direction, $important);
+}
+
+/// Sets a fixed padding space in a given direction based on a given breakpoint and nth term on the typescale
+///
+/// @param {Number} $n [1] - The nth term on the typescale or the distance from the base of the typescale
+/// @param {String} $direction ['all'] - The direction in which the padding should apply to (top, bottom, left, right)
+/// @param {String} $breakpoint-name [null] - The name of the breakpoint for which the mixin will take reference from 
+/// @param {Boolean} $important [false] - Whether or not the CSS padding property should be marked as "important!"
+/// @access public
+
+@mixin set-padding-fixed(
+  $n: 1,
+  $direction: 'all',
+  $breakpoint-name: null,
+  $important: false
+) {
+  @include _set-spacing-fixed($n, 'padding', $direction, $breakpoint-name, $important);
+}
+
+/// Responsively sets padding spaces in a given direction based on a given nth term on the typescale
+///
+/// @param {Number} $n [1] - The nth term on the typescale or the distance from the base of the typescale
+/// @param {String} $direction ['all'] - The direction in which the padding should apply to (top, bottom, left, right)
+/// @param {Boolean} $important [false] - Whether or not the CSS padding property should be marked as "important!"
+/// @access public
+
+@mixin set-padding-responsive(
+  $n: 1,
+  $direction: 'all',
+  $important: false
+) {
+  @include _set-spacing-responsive($n, 'padding', $direction, $important);
+}

@@ -1,0 +1,39 @@
+@use '../settings';
+@use '../tools' as *;
+
+.grid-row {
+  align-content: flex-start;
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  margin-left: - (settings.$gutter-half);
+  margin-right: - (settings.$gutter-half);
+}
+
+@each $width in map-keys(settings.$grid-widths) {
+  .grid-column-#{$width} {
+    @include grid-column($width);
+  }
+}
+
+@each $width in map-keys(settings.$grid-widths) {
+  .grid-column-#{$width} {
+    @include grid-column($width);
+  }
+}
+
+@each $width in map-keys(settings.$grid-widths) {
+  .grid-column-#{$width}-desktop {
+    @include media-query($from: desktop) {
+      @include grid-column($width);
+    }
+  }
+}
+
+@each $width in map-keys(settings.$grid-widths) {
+  .grid-column-#{$width}-desktop {
+    @include media-query($from: desktop) {
+      @include grid-column($width);
+    }
+  }
+}
