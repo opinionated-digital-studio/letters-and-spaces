@@ -11,13 +11,13 @@
 ///
 /// See https://learn-the-web.algonquindesign.ca/topics/modular-typography/
 ///
-/// @param {Number} $typescale-ratio [settings.$typescale-ratio] - The typescale ratio used in the typescale
+/// @param {Number} $typescale-ratio - The typescale ratio used in the typescale
 /// @param {Number} $n [1] - The nth term on the typescale or the distance from the base of the typescale
 /// @return {Number} The font size in rem
-/// @access public
+/// @access private
 
-@function get-typescale-font-size(
-  $typescale-ratio: settings.$typescale-ratio,
+@function _get-typescale-font-size(
+  $typescale-ratio,
   $n: 1
 ) {
   @return 1rem * math.pow($typescale-ratio, ($n - 1));
@@ -61,13 +61,32 @@
   text-size-adjust: 100%;
 }
 
-/// Sets the appropriate font-size on an element based on the given nth term on the typescale
+/// Sets the appropriate font-size on an element based on the given nth term on the typescale and a given breakpoint
 ///
 /// @param {Number} $n [1] - The nth term on the typescale
+/// @param {String} $breakpoint-name [null] - The name of th ebreakpoint used to find the refeerence typescale ratio
 /// @access public
 
+@mixin set-font-size-fixed($n: 1, $breakpoint-name: null) {
+  $reference-base-type: map-get(settings.$base-type, $breakpoint-name);
+  $ratio: map-get($reference-base-type, typescale-ratio);
+  font-size: _get-typescale-font-size($ratio, $n);
+}
+
+/// Responsively sets the font-size based on the given nth term and the typescale ratio used on each breakpoint
+///
+/// @param {Number} $n [1] - The nth term on the typescalet 
+
 @mixin set-font-size($n: 1) {
-  font-size: get-typescale-font-size($n: $n);
+  @each $breakpoint, $value in settings.$base-type {
+    @if $breakpoint == null {
+      @include set-font-size-fixed($n, $breakpoint);
+    } @else {
+      @include media-query($from: $breakpoint) {
+        @include set-font-size-fixed($n, $breakpoint);
+      }
+    }
+  }
 }
 
 /// Sets the appropriate line-height based on the given nth term on the typescale and the base line-height specific to a given breakpoint
@@ -77,9 +96,10 @@
 /// @access public
 
 @mixin set-line-height-fixed($n: 1, $breakpoint-name: null) {
-  $reference-font-size: math.div(get-typescale-font-size($n: $n), 1rem);
   $reference-base-type: map-get(settings.$base-type, $breakpoint-name);
   $base-line-height: map-get($reference-base-type, line-height);
+  $ratio: map-get($reference-base-type, typescale-ratio);
+  $reference-font-size: math.div(_get-typescale-font-size($ratio, $n), 1rem);
 
   line-height: get-line-height($reference-font-size, $base-line-height);
 }
@@ -90,11 +110,7 @@
 /// @access public
 
 @mixin set-line-height($n: 1) {
-  $reference-font-size: get-typescale-font-size($n: $n);
-
   @each $breakpoint, $value in settings.$base-type {
-    $base-line-height: map-get($value, line-height);
-
     @if $breakpoint == null {
       @include set-line-height-fixed($n, $breakpoint);
     } @else {

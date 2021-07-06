@@ -1,2 +1,54 @@
-@use '../tools/' as *;
+@use '../tools' as *;
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  font-weight: bold;
+  margin-top: 0;
+}
+
+h1,
+.h1 {
+  @include set-font-size(6);
+  @include set-margin-responsive(3, 'bottom');
+}
+
+h2,
+.h2 {
+  @include set-font-size(5);
+  @include set-margin-responsive(2, 'bottom');
+}
+
+h3,
+.h3 {
+  @include set-font-size(4);
+  @include set-margin-responsive(1, 'bottom');
+}
+
+h4,
+.h4 {
+  @include set-font-size(3);
+  @include set-margin-responsive(1, 'bottom');
+}
+
+h5,
+h6
+.h5,
+.h6 {
+  @include set-margin-responsive(1, 'bottom');
+}
+
+p {
+  @include set-margin-responsive(1, 'bottom');
+  margin-top: 0;
+}
 

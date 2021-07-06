@@ -7,7 +7,8 @@ Quickly build beautiful responsive flexbox-based grid layouts with modular typog
 - Uses REMs to respect user font size settings
 - Provides mixins to set font sizes and line-heights based on a preset and configurable modular scale 
 - Provides mixins to responsively handle margin and padding spacing whilst maintaining vertical rhythm
-- Sets base font sizes responsively (i.e. different base font sizes per breakpoint)
+- Sets base font sizes and lien heights responsively (i.e. different base font sizes and line heights per breakpoint)
+- Sets typescale ratios responsively (i.e. different typescales per breakpoint)
 - Uses and provides classes for a responsive flexbox-based grid and column system
 
 ## Quick start

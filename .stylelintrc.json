@@ -1,6 +1,8 @@
 {
   "extends": "stylelint-config-sass-guidelines",
   "rules": {
-    "scss/at-mixin-pattern": null
+    "scss/at-mixin-pattern": null,
+    "scss/at-function-pattern": null,
+    "at-rule-disallowed-list": null
   }
 }

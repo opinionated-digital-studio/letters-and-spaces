@@ -41,13 +41,17 @@ $base-line-height-multiplier: (
   desktop: 6
 ) !default;
 
-/// Typescale ratio to use within the modular typography system.
+/// Typescale ratios to use within the modular typography system per breakpoint.
 /// See https://alistapart.com/article/more-meaningful-typography/
 ///
-/// @type Number
+/// @type Map
 /// @access public
 
-$typescale-ratio: get-typescale-ratio('major-third') !default;
+$typescale-ratios: (
+  null: get-typescale-ratio('minor-second'),
+  tablet: get-typescale-ratio('minor-second'),
+  desktop: get-typescale-ratio('minor-third')
+) !default;
 
 $base-type: ();
 
@@ -55,7 +59,8 @@ $base-type: ();
   $map: ();
   $font-size-multiplier: map-get($base-font-size-multiplier, $breakpoint);
   $line-height-multiplier: map-get($base-line-height-multiplier, $breakpoint);
-  $map: map-merge($map, ($breakpoint: create-base-type-map($value, $font-size-multiplier, $line-height-multiplier)));
+  $typescale-ratio: map-get($typescale-ratios, $breakpoint);
+  $map: map-merge($map, ($breakpoint: create-base-type-map($value, $font-size-multiplier, $line-height-multiplier, $typescale-ratio)));
   $base-type: map-merge($base-type, $map);
 }
 

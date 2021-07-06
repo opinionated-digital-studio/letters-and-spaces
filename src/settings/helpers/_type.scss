@@ -23,13 +23,14 @@
 /// @return {Map} Map containing the font size in pixels and line-height as a multiplier of the font size
 /// @access public
 
-@function create-base-type-map($base-vertical-unit, $font-size-multiplier, $line-height-multiplier) {
+@function create-base-type-map($base-vertical-unit, $font-size-multiplier, $line-height-multiplier, $typescale-ratio) {
   $font-size: $base-vertical-unit * $font-size-multiplier;
   $line-height: $base-vertical-unit * $line-height-multiplier;
   $line-height: get-line-height-factor($font-size, $line-height);
   $map: (
     font-size: $font-size,
-    line-height: $line-height
+    line-height: $line-height,
+    typescale-ratio: $typescale-ratio
   );
   @return $map;
 }
