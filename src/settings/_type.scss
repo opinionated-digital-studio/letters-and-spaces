@@ -56,8 +56,6 @@ $base-type: ();
   $font-size-multiplier: map-get($base-font-size-multiplier, $breakpoint);
   $line-height-multiplier: map-get($base-line-height-multiplier, $breakpoint);
   $map: map-merge($map, ($breakpoint: create-base-type-map($value, $font-size-multiplier, $line-height-multiplier)));
-  $base-type: map-merge($map, $base-type);
+  $base-type: map-merge($base-type, $map);
 }
-
-
 
