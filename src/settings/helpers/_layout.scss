@@ -1,4 +1,4 @@
-@use '../layout';
+@use '../layout' as *;
 
 ////
 /// @group settings/helpers/layout
@@ -11,8 +11,8 @@
 /// @access public
 
 @function get-grid-width($width: 'full') {
-  @if map-has-key(layout.$grid-widths, $width) {
-    @return map-get(layout.$grid-widths, $width);
+  @if map-has-key($grid-widths, $width) {
+    @return map-get($grid-widths, $width);
   } @else {
     @warn 'Width #{$width} does not exist in widths $grid-widths';
   }

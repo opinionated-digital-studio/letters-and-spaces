@@ -1,6 +1,5 @@
 @use 'sass:math';
-@use '../settings/helpers/' as *;
-@use '../settings';
+@use '../settings' as *;
 @use 'media-queries' as *;
 
 ////
@@ -42,7 +41,7 @@
 /// @access public
 
 @mixin set-root-type {
-  @each $breakpoint, $value in settings.$base-type {
+  @each $breakpoint, $value in $base-type {
     @if $breakpoint == null {
       $font-size: map-get($value, font-size);
       $line-height: map-get($value, line-height);
@@ -68,7 +67,7 @@
 /// @access public
 
 @mixin set-font-size-fixed($n: 1, $breakpoint-name: null) {
-  $reference-base-type: map-get(settings.$base-type, $breakpoint-name);
+  $reference-base-type: map-get($base-type, $breakpoint-name);
   $ratio: map-get($reference-base-type, typescale-ratio);
   font-size: _get-typescale-font-size($ratio, $n);
 }
@@ -78,7 +77,7 @@
 /// @param {Number} $n [1] - The nth term on the typescalet 
 
 @mixin set-font-size($n: 1) {
-  @each $breakpoint, $value in settings.$base-type {
+  @each $breakpoint, $value in $base-type {
     @if $breakpoint == null {
       @include set-font-size-fixed($n, $breakpoint);
     } @else {
@@ -96,7 +95,7 @@
 /// @access public
 
 @mixin set-line-height-fixed($n: 1, $breakpoint-name: null) {
-  $reference-base-type: map-get(settings.$base-type, $breakpoint-name);
+  $reference-base-type: map-get($base-type, $breakpoint-name);
   $base-line-height: map-get($reference-base-type, line-height);
   $ratio: map-get($reference-base-type, typescale-ratio);
   $reference-font-size: math.div(_get-typescale-font-size($ratio, $n), 1rem);
@@ -110,7 +109,7 @@
 /// @access public
 
 @mixin set-line-height($n: 1) {
-  @each $breakpoint, $value in settings.$base-type {
+  @each $breakpoint, $value in $base-type {
     @if $breakpoint == null {
       @include set-line-height-fixed($n, $breakpoint);
     } @else {

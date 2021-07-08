@@ -1,0 +1,5 @@
+@use '../tools' as *;
+
+html {
+  @include set-root-type;
+}
