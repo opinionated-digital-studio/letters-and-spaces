@@ -23,17 +23,13 @@
 }
 
 @each $width in map-keys(settings.$grid-widths) {
-  .grid-column-#{$width}-desktop {
-    @include media-query($from: desktop) {
-      @include grid-column($width);
-    }
+  .grid-column-#{$width}-tablet {
+    @include grid-column($width, tablet);
   }
 }
 
 @each $width in map-keys(settings.$grid-widths) {
   .grid-column-#{$width}-desktop {
-    @include media-query($from: desktop) {
-      @include grid-column($width);
-    }
+    @include grid-column($width, desktop);
   }
 }

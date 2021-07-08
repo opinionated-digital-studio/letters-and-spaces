@@ -1,4 +1,6 @@
-@use '../settings/helpers/' as *;
+@use '../settings' as *;
+@use '../settings/helpers' as *;
+@use 'media-queries' as *;
 
 ////
 /// @group tools/layout
@@ -10,15 +12,25 @@
 /// @param {String} $width [full] - Name of the grid width
 /// @access public
 
-@mixin grid-column($width: full) {
-  align-content: flex-start;
-  align-items: flex-start;
-  display: flex;
-  flex-wrap: wrap;
+@mixin grid-column($width: full, $breakpoint: null) {
+  box-sizing: border-box;
+  padding: $gutter-half;
 
-  @if $width == full {
-    flex: 1 1 auto;
+  @if $breakpoint == null {
+    @if $width == full {
+      flex: 1 1 auto;
+    } @else {
+      flex: 0 0 get-grid-width($width);
+    };
   } @else {
-    flex: 0 0 get-grid-width($width);
+    flex: 1 1 100%;
+
+    @include media-query($from: $breakpoint) {
+      @if $width == full {
+        flex: 1 1 auto;
+      } @else {
+        flex: 0 0 get-grid-width($width);
+      };
+    }
   }
 }
