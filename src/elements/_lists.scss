@@ -1,0 +1,15 @@
+@use '../tools/spacing' as *;
+
+ol,
+ul {
+  @include set-margin-responsive(1, bottom);
+  margin-top: 0;
+}
+
+ol li {
+  @include set-margin-responsive(0.5, bottom);
+}
+
+ul li {
+  margin-bottom: 0;
+}
