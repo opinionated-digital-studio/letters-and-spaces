@@ -28,7 +28,6 @@
     "postcss": "^8.3.5",
     "postcss-sort-media-queries": "^3.11.12",
     "sass": "^1.35.1",
-    "sass-mq": "^5.0.1",
     "sassdoc": "^2.7.3",
     "stylelint": "^13.13.1",
     "stylelint-config-sass-guidelines": "^8.0.0"

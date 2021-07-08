@@ -1,5 +1,5 @@
 @use '../settings' as *;
-@use '../../node_modules/sass-mq/mq' as * with (
+@use '../vendor/sass-mq' as * with (
   $mq-breakpoints: if(variable-exists(breakpoints), $breakpoints, ())
 );
 
