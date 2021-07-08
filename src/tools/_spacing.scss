@@ -7,6 +7,19 @@
 /// @group tools/spacing
 ////
 
+/// Gets a fixed spacing value based on a breakpoint and the nth term on the typescale
+///
+/// @param {Number} $multiplier [1] - The multiplier to apply to the base line-height to get the spacing value
+/// @param {String} $breakpoint-name [null] - The name of the breakpoint for which the mixin will take reference from 
+/// @return {Number} The spacing value in rem
+/// @access public
+
+@function get-spacing-value ($multiplier: 1, $breakpoint-name: null) {
+  $reference-base-type: map-get(settings.$base-type, $breakpoint-name);
+  $base-line-height: map-get($reference-base-type, line-height);
+  @return ($base-line-height * $multiplier) * 1rem;
+}
+
 /// Sets fixed spacing based on a breakpoint and the nth term on the typescale
 ///
 /// @param {Number} $multiplier [1] - The multiplier to apply to the base line-height to get the spacing value
@@ -23,9 +36,7 @@
   $breakpoint-name: null,
   $important: false
 ) {
-  $reference-base-type: map-get(settings.$base-type, $breakpoint-name);
-  $base-line-height: map-get($reference-base-type, line-height);
-  $spacing-value: ($base-line-height * $multiplier) * 1rem;
+  $spacing-value: get-spacing-value($multiplier, $breakpoint-name);
 
   @if $direction == all {
     #{$property}: $spacing-value if($important, !important, null);
